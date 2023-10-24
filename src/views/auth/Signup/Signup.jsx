@@ -314,9 +314,34 @@ const Signup = props => {
       <div className="col col-sm-12 col-md-12 pad-30 col-lg-5 p-7">
         <h3 className="signinTitle">
           {initialValues.loginType === 'manual' && !initialValues.socialId
-            ? 'Sign Up'
+            ? 'Sign Up1'
             : 'Social Sign Up'}
         </h3>
+
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="fname">First name:</label>
+          <br />
+          <input
+            type="text"
+            id="fname"
+            name="fname"
+            value={this.state.fname}
+            onChange={this.handleInputChange}
+          />
+          <br />
+          <label htmlFor="lname">Last name:</label>
+          <br />
+          <input
+            type="text"
+            id="lname"
+            name="lname"
+            value={this.state.lname}
+            onChange={this.handleInputChange}
+          />
+          <br />
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
 
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">Please sign up to enter</h6>
 
@@ -345,7 +370,7 @@ const Signup = props => {
             <form
               onSubmit={handleSubmit}
               autoComplete="nope"
-              autoFill="off"
+              // autoFill="off"
               // noValidate
               // readOnly
               // onFocus="this.removeAttribute('readonly');"
@@ -353,7 +378,7 @@ const Signup = props => {
             >
               <div className="row">
                 <div className="form-group col">
-                  <label htmlhtmlFor="exampleInputEmail1 mb-2">First Name</label>
+                  <label htmlFor="exampleInputEmail1 mb-2">First Name</label>
                   <input
                     type="text"
                     // pattern="[^\s]+"
@@ -371,7 +396,7 @@ const Signup = props => {
                   </div>
                 </div>
                 <div className="form-group col">
-                  <label htmlhtmlFor="exampleInputEmail1 mb-2">Last Name</label>
+                  <label htmlFor="exampleInputEmail1 mb-2">Last Name</label>
                   <input
                     type="text"
                     className="form-control"
