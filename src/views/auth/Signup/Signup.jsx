@@ -348,9 +348,6 @@ const Signup = props => {
           <br />
           <br />
           <input type="submit" value="Submit" />
-
-        {/* </form>  */}
-
         </form>
 
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">Please sign up to enter</h6>
