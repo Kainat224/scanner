@@ -48,6 +48,7 @@ import { FACEBOOK_SVG, GOOGLE_SVG, TWITTER_SVG } from '../../../assets/images';
 
 // eslint-disable-next-line no-unused-vars
 const Signup = props => {
+  
   const [OTPModalOpen, setOTPModalOpen] = useState(false);
   const [documentVarificationModalOpen, setDocumentVarificationModalOpen] = useState(false);
   const [disable, setDisable] = useState(true);
@@ -96,7 +97,7 @@ const Signup = props => {
         firstName,
         lastName,
         // eslint-disable-next-line camelcase
-        oauth_token_secret,
+        oauth_Token_Secret,
       } = socialData;
       setInitialValues({
         ...initialValues,
@@ -106,7 +107,7 @@ const Signup = props => {
         socialId,
         loginType,
         socialAccessToken,
-        oauth_token_secret,
+        oauth_Token_Secret,
       });
     }
     return () => dispatch(resetSocialNotRegistered());
@@ -146,17 +147,22 @@ const Signup = props => {
     userName: Yup.string().required(USERNAME_REQUIRED),
   });
 
-  // eslint-disable-next-line consistent-return
-  const submitBtnHandler = values => {
-    if (disable) return '';
-    const requestBody = { ...values };
-    dispatch(
-      signupSaga({
-        data: requestBody,
-        modalHandler: setOTPModalOpen,
-      }),
-    );
-  };
+ 
+  const submitBtnHandler = (values,e) => {
+    e.preventDefault()
+    console.log("hello")
+  // if (disable) return '';
+  const requestBody = { ...values };
+  alert('Form Data:', requestBody);
+  dispatch(
+    signupSaga({
+      data: requestBody,
+      modalHandler: setOTPModalOpen,
+    }),
+  );
+  
+};
+
 
   const handleSocialLoginError = error => {
     if (
@@ -309,14 +315,43 @@ const Signup = props => {
     );
   };
 
+  console.log("welcome")
   return (
     <AuthLayout isLogin={false}>
       <div className="col col-sm-12 col-md-12 pad-30 col-lg-5 p-7">
         <h3 className="signinTitle">
           {initialValues.loginType === 'manual' && !initialValues.socialId
-            ? 'Sign Up'
+            ? 'Sign Up1'
             : 'Social Sign Up'}
         </h3>
+
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="fname">First name:</label>
+          <br />
+          <input
+            type="text"
+            id="fname"
+            name="fname"
+            value={this.state.fname}
+            onChange={this.handleInputChange}
+          />
+          <br />
+          <label htmlFor="lname">Last name:</label>
+          <br />
+          <input
+            type="text"
+            id="lname"
+            name="lname"
+            value={this.state.lname}
+            onChange={this.handleInputChange}
+          />
+          <br />
+          <br />
+          <input type="submit" value="Submit" />
+
+        {/* </form>  */}
+
+        </form>
 
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">Please sign up to enter</h6>
 
@@ -330,6 +365,7 @@ const Signup = props => {
             obj.countryCode = `${values.countryCode}`;
             submitBtnHandler(obj);
             setSubmitting(false);
+            // submitBtnHandler(values);
           }}
         >
           {({
@@ -339,21 +375,21 @@ const Signup = props => {
             handleChange,
             handleBlur,
             setFieldValue,
-            handleSubmit,
+             
             // isSubmitting
           }) => (
             <form
-              onSubmit={handleSubmit}
+              
               autoComplete="nope"
-              autoFill="off"
+              // autoFill="off"
               // noValidate
               // readOnly
-              // onFocus="this.removeAttribute('readonly');"
-              // onBlur="this.setAttribute('readonly','');"
+              // onFocus="removeAttribute('readonly');"
+              // onBlur="setAttribute('readonly','');"
             >
               <div className="row">
                 <div className="form-group col">
-                  <label htmlhtmlFor="exampleInputEmail1 mb-2">First Name</label>
+                  <label htmlFor="exampleInputEmail1 mb-2">First Name</label>
                   <input
                     type="text"
                     // pattern="[^\s]+"
@@ -371,7 +407,7 @@ const Signup = props => {
                   </div>
                 </div>
                 <div className="form-group col">
-                  <label htmlhtmlFor="exampleInputEmail1 mb-2">Last Name</label>
+                  <label htmlFor="exampleInputEmail1 mb-2">Last Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -586,6 +622,7 @@ const Signup = props => {
               <button
                 type="submit"
                 className={disable ? 'btn btn-primary disabled-signup' : 'btn btn-primary'}
+                onClick={(obj) => submitBtnHandler(obj)}
               >
                 Sign Up
               </button>

@@ -294,8 +294,10 @@ const Login = () => {
       }),
     );
   };
+  
   return (
     <AuthLayout isLogin>
+
       <div className="col col-sm-12 col-md-12  col-lg-5 pad-15 p-7">
         <h3 className="signinTitle">Sign In</h3>
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">
