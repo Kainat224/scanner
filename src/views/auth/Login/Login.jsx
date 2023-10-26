@@ -242,6 +242,13 @@ const Login = () => {
       });
   };
 
+  const handleSubmit =(e, values) =>{
+    e.preventDefault();
+    console.log("signed in")
+    console.log("Form Value:", values); // Add this line to log the form values
+    // const requestBody = { ...values };
+  }
+
   const successHandler = payload => {
     setOTPModalOpen(false);
     setIsUserVerfication(false);
@@ -328,10 +335,11 @@ const Login = () => {
             handleChange,
             handleBlur,
             setFieldValue,
-            handleSubmit,
-            // isSubmitting,
+            // handleSubmit,
+            isSubmitting,
+            isValid
           }) => (
-            <form onSubmit={handleSubmit} noValidate autoComplete="off">
+            <form onSubmit={(e) => handleSubmit(e, values)} noValidate autoComplete="off">
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1 mb-2">Email/Phone No.</label>
                 <input
@@ -454,7 +462,9 @@ const Login = () => {
                   !errorType &&
                   errorMsg}
               </div>
-              <button type="submit" className="btn btn-primary signIn-btn w-100">
+              <button type="submit" className="btn btn-primary signIn-btn w-100"
+              disabled={isSubmitting || !isValid}
+              >
                 Sign In
               </button>
             </form>

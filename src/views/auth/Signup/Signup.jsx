@@ -151,6 +151,56 @@ const Signup = props => {
   
   const submitBtnHandler = (values) => {
     console.log("submitted")
+
+    // const emptyFields = Object.keys(values).filter((key) => !values[key]);
+  
+    if (values.firstName.length === 0) {
+      alert("please enter First Name")
+      return;
+    }
+    if (values.lastName.length === 0) {
+      alert("please enter Last Name")
+      return;
+    }
+    if (values.email.length === 0) {
+      alert("please enter Email")
+      return;
+    }
+    if (values.userName.length === 0) {
+      alert("please enter Username")
+      return;
+    }
+
+    if (values.phone.length < 12) {
+      alert("please enter Phone Number")
+      return;
+    }
+
+    if (values.gender.length === 0) {
+      alert("please enter Gender")
+      return;
+    }
+
+    if (!values.dob) {
+      alert("please enter Date of Birth")
+      return;
+    }
+
+    if (values.password.length === 0) {
+      alert("please enter Password")
+      return;
+    }
+
+    if (values.rePassword.length === 0) {
+      alert("please enter Re-Password")
+      return;
+    }
+
+    if (values.password !== values.rePassword) {
+      alert("Both password should be same!")
+      return;
+    }
+  
     
   // if (disable) return '';
   // console.log("Form values:", values);
@@ -329,7 +379,7 @@ const Signup = props => {
       <div className="col col-sm-12 col-md-12 pad-30 col-lg-5 p-7">
         <h3 className="signinTitle">
           {initialValues.loginType === 'manual' && !initialValues.socialId
-            ? 'Sign Up1'
+            ? 'Sign Up'
             : 'Social Sign Up'}
         </h3>
 
@@ -633,6 +683,7 @@ const Signup = props => {
               <button
                 type="submit"
                 className={disable ? 'btn btn-primary disabled-signup' : 'btn btn-primary'}
+                disabled={disable}
                
               >
                 Sign Up
