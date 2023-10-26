@@ -97,7 +97,7 @@ const Signup = props => {
         firstName,
         lastName,
         // eslint-disable-next-line camelcase
-        oauth_Token_Secret,
+        oauth_token_secret,
       } = socialData;
       setInitialValues({
         ...initialValues,
@@ -107,7 +107,7 @@ const Signup = props => {
         socialId,
         loginType,
         socialAccessToken,
-        oauth_Token_Secret,
+        oauth_token_secret,
       });
     }
     return () => dispatch(resetSocialNotRegistered());
@@ -147,20 +147,21 @@ const Signup = props => {
     userName: Yup.string().required(USERNAME_REQUIRED),
   });
 
- 
-  const submitBtnHandler = (values,e) => {
-    e.preventDefault()
-    console.log("hello")
+  // eslint-disable-next-line consistent-return
+  
+  const submitBtnHandler = (values) => {
+    console.log("submitted")
+    
   // if (disable) return '';
+  // console.log("Form values:", values);
   const requestBody = { ...values };
-  alert('Form Data:', requestBody);
   dispatch(
     signupSaga({
-      data: requestBody,
+      data: values,
       modalHandler: setOTPModalOpen,
     }),
   );
-  
+  console.log("Form Values", requestBody)
 };
 
 
@@ -315,7 +316,14 @@ const Signup = props => {
     );
   };
 
-  console.log("welcome")
+  // const [fieldName , setFieldName] = useState("")
+  // const handleNameChange = (e) => {
+  //   const { value } = e.target;
+  //   console.log(`Field Value: ${value}`);
+  //   setFieldName(value);
+  // };
+
+
   return (
     <AuthLayout isLogin={false}>
       <div className="col col-sm-12 col-md-12 pad-30 col-lg-5 p-7">
@@ -325,15 +333,15 @@ const Signup = props => {
             : 'Social Sign Up'}
         </h3>
 
-        <form onSubmit={this.handleSubmit}>
+        {/* <form >
           <label htmlFor="fname">First name:</label>
           <br />
           <input
             type="text"
             id="fname"
             name="fname"
-            value={this.state.fname}
-            onChange={this.handleInputChange}
+            value={open.fname}
+            
           />
           <br />
           <label htmlFor="lname">Last name:</label>
@@ -342,13 +350,13 @@ const Signup = props => {
             type="text"
             id="lname"
             name="lname"
-            value={this.state.lname}
-            onChange={this.handleInputChange}
+            value={open.lname}
+            
           />
           <br />
           <br />
           <input type="submit" value="Submit" />
-        </form>
+        </form> */}
 
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">Please sign up to enter</h6>
 
@@ -357,12 +365,15 @@ const Signup = props => {
           enableReinitialize
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            const obj = { ...values };
-            obj.phone = String(values.phone.substring(values.countryCode.length - 1));
-            obj.countryCode = `${values.countryCode}`;
-            submitBtnHandler(obj);
+            // const obj = { ...values };
+            // obj.phone = String(values.phone.substring(values.countryCode.length - 1));
+            // obj.countryCode = `${values.countryCode}`;
+            // submitBtnHandler(obj);
+            // setSubmitting(false);
+            // console.log(obj)
+            submitBtnHandler(values);
             setSubmitting(false);
-            // submitBtnHandler(values);
+
           }}
         >
           {({
@@ -375,7 +386,10 @@ const Signup = props => {
              
             // isSubmitting
           }) => (
-            <form
+            <form 
+            onSubmit={(e)=> {
+              e.preventDefault()
+              submitBtnHandler(values)}}
               
               autoComplete="nope"
               // autoFill="off"
@@ -393,9 +407,9 @@ const Signup = props => {
                     className="form-control"
                     placeholder="Enter First Name"
                     name="firstName"
-                    value={values.firstName && values.firstName.trim()}
-                    // value={values.firstName &&
-                    // values.firstName.trim().replace(/[^a-zA-Z]/gi, '')}
+                    // value={values.firstName && values.firstName.trim()}
+
+                    value={values.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
@@ -619,7 +633,7 @@ const Signup = props => {
               <button
                 type="submit"
                 className={disable ? 'btn btn-primary disabled-signup' : 'btn btn-primary'}
-                onClick={(obj) => submitBtnHandler(obj)}
+               
               >
                 Sign Up
               </button>
