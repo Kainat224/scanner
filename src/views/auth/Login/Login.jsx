@@ -105,6 +105,9 @@ const Login = () => {
 
   const submitBtnHandler = values => {
     const requestBody = { ...values };
+    
+
+
     // requestBody.deviceToken = localStorage.getItem('gtoken');
 
     if (!isNaN(requestBody.email)) {
@@ -243,10 +246,19 @@ const Login = () => {
   };
 
   const handleSubmit =(e, values) =>{
+
     e.preventDefault();
     console.log("signed in")
-    console.log("Form Value:", values); // Add this line to log the form values
+    console.log("Form Value:", values);
     // const requestBody = { ...values };
+
+    dispatch(
+      login({
+        data: values,
+        modalHandler: setOTPModalOpen,
+      }),
+    );
+    
   }
 
   const successHandler = payload => {
