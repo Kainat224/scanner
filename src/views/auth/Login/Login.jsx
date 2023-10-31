@@ -245,21 +245,71 @@ const Login = () => {
       });
   };
 
-  const handleSubmit =(e, values) =>{
 
+  const handleSubmit = async (e, values) => {
     e.preventDefault();
-    console.log("signed in")
+    console.log("signed in");
     console.log("Form Value:", values);
-    // const requestBody = { ...values };
+  
+    const requestBody = { ...values };
+  
+    try {
+      const response = await fetch('http://localhost:3000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // You might need additional headers like authorization tokens
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      if (!response.ok) {
+        // Handle error, for example:
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      
+      // Handle the response data, for example:
+      console.log("Login successful:", responseData);
+  
+      // Dispatch your action or handle success accordingly
+      // dispatch(
+      //   login({
+      //     data: responseData,
+      //     modalHandler: setOTPModalOpen,
+      //   }),
+      // );
+  
+      // Further actions after successful login
+      console.log("dispatch");  
+      // history.push('/dashboard');
+      console.log("redirecting");
 
-    dispatch(
-      login({
-        data: values,
-        modalHandler: setOTPModalOpen,
-      }),
-    );
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error, show error message, etc.
+    }
+  };
+  
+
+
+  // const handleSubmit =(e, values) =>{
+
+  //   e.preventDefault();
+  //   console.log("signed in")
+  //   console.log("Form Value:", values);
+  //   const requestBody = { ...values };
+
+  //   dispatch(
+  //     login({
+  //       data: requestBody,
+  //       modalHandler: setOTPModalOpen,
+  //     }),
+  //   );
+  //   console.log("dispatch")
     
-  }
+  // }
 
   const successHandler = payload => {
     setOTPModalOpen(false);
