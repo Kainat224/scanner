@@ -58,6 +58,7 @@ export function* loginSaga(action) {
   yield put(loginStart());
   yield errorHandler({
     endpoint: `/users/login`,
+
     successHandler: yield function* (response) {
       const { loginType, redirectSocialSignup } = action.payload;
       if (loginType !== 'manual' && response.data.SOCIAL_NOT_REGISTERED) {

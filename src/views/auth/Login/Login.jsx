@@ -320,6 +320,7 @@ const Login = () => {
           notifyType: 2,
           message: 'Your account is verified!',
           buttonClick: () => dispatch(resetTempData()),
+          redirectURL: '/dashboard',
         }),
       );
     }
