@@ -319,8 +319,14 @@ const Login = () => {
           open: true,
           notifyType: 2,
           message: 'Your account is verified!',
-          buttonClick: () => dispatch(resetTempData()),
-          redirectURL: '/dashboard',
+          // buttonClick: () => dispatch(resetTempData()),
+          // redirectURL: '/dashboard',
+          buttonClick: () => {
+            dispatch(resetTempData());
+            // Use the useHistory hook to redirect to /dashboard
+            const history = useHistory();
+            history.push('/dashboard');
+          },
         }),
       );
     }
