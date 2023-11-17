@@ -4,7 +4,7 @@ export const loginStart = () => ({
   type: actionLabels.LOGIN_START,
 });
 
-export const login = payload => ({
+export const loginSaga = payload => ({
   type: actionLabels.LOGIN_SAGA,
   payload,
 });

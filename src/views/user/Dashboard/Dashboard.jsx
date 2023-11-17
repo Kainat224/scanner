@@ -112,6 +112,7 @@ const Dashboard = () => {
 
   return (
     <>
+ 
       <FilterComponent
         sortObj={sortObj}
         setSortObj={setSortObj}

@@ -48,7 +48,6 @@ import { FACEBOOK_SVG, GOOGLE_SVG, TWITTER_SVG } from '../../../assets/images';
 
 // eslint-disable-next-line no-unused-vars
 const Signup = props => {
-  
   const [OTPModalOpen, setOTPModalOpen] = useState(false);
   const [documentVarificationModalOpen, setDocumentVarificationModalOpen] = useState(false);
   const [disable, setDisable] = useState(true);
@@ -148,72 +147,70 @@ const Signup = props => {
   });
 
   // eslint-disable-next-line consistent-return
-  
-  const submitBtnHandler = (values) => {
-    console.log("submitted")
+
+  const submitBtnHandler = values => {
+    console.log('submitted');
 
     // const emptyFields = Object.keys(values).filter((key) => !values[key]);
-  
+
     if (values.firstName.length === 0) {
-      alert("please enter First Name")
+      alert('please enter First Name');
       return;
     }
     if (values.lastName.length === 0) {
-      alert("please enter Last Name")
+      alert('please enter Last Name');
       return;
     }
     if (values.email.length === 0) {
-      alert("please enter Email")
+      alert('please enter Email');
       return;
     }
     if (values.userName.length === 0) {
-      alert("please enter Username")
+      alert('please enter Username');
       return;
     }
 
     if (values.phone.length < 12) {
-      alert("please enter Phone Number")
+      alert('please enter Phone Number');
       return;
     }
 
     if (values.gender.length === 0) {
-      alert("please enter Gender")
+      alert('please enter Gender');
       return;
     }
 
     if (!values.dob) {
-      alert("please enter Date of Birth")
+      alert('please enter Date of Birth');
       return;
     }
 
     if (values.password.length === 0) {
-      alert("please enter Password")
+      alert('please enter Password');
       return;
     }
 
     if (values.rePassword.length === 0) {
-      alert("please enter Re-Password")
+      alert('please enter Re-Password');
       return;
     }
 
     if (values.password !== values.rePassword) {
-      alert("Both password should be same!")
+      alert('Both password should be same!');
       return;
     }
-  
-    
-  // if (disable) return '';
-  // console.log("Form values:", values);
-  const requestBody = { ...values };
-  dispatch(
-    signupSaga({
-      data: values,
-      modalHandler: setOTPModalOpen,
-    }),
-  );
-  console.log("Form Values", requestBody)
-};
 
+    // if (disable) return '';
+    // console.log("Form values:", values);
+    const requestBody = { ...values };
+    dispatch(
+      signupSaga({
+        data: values,
+        modalHandler: setOTPModalOpen,
+      }),
+    );
+    console.log('Form Values', requestBody);
+  };
 
   const handleSocialLoginError = error => {
     if (
@@ -373,7 +370,6 @@ const Signup = props => {
   //   setFieldName(value);
   // };
 
-
   return (
     <AuthLayout isLogin={false}>
       <div className="col col-sm-12 col-md-12 pad-30 col-lg-5 p-7">
@@ -423,7 +419,6 @@ const Signup = props => {
             // console.log(obj)
             submitBtnHandler(values);
             setSubmitting(false);
-
           }}
         >
           {({
@@ -433,14 +428,14 @@ const Signup = props => {
             handleChange,
             handleBlur,
             setFieldValue,
-             
+
             // isSubmitting
           }) => (
-            <form 
-            onSubmit={(e)=> {
-              e.preventDefault()
-              submitBtnHandler(values)}}
-              
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                submitBtnHandler(values);
+              }}
               autoComplete="nope"
               // autoFill="off"
               // noValidate
@@ -684,7 +679,6 @@ const Signup = props => {
                 type="submit"
                 className={disable ? 'btn btn-primary disabled-signup' : 'btn btn-primary'}
                 disabled={disable}
-               
               >
                 Sign Up
               </button>

@@ -77,6 +77,7 @@ function App() {
     mainContent = (
       <>
         <Route path="/" component={lazy(() => import('./views/MainContainer/MainContainer'))} />
+
         {/* {open && <AlertMessageModal />} */}
       </>
     );

@@ -13,7 +13,8 @@ import {
 } from 'firebase/auth';
 
 import {
-  login,
+  // login,
+  loginSaga,
   otpResendSaga,
   otpVerifySaga,
   otpVerifySuccess,
@@ -38,6 +39,7 @@ import AlertMessageModal from '../../../components/UI/Model/AlertMessageModal';
 import PhoneNumerValModal from './PhoneNumberValModal';
 import auth from '../../../firebase';
 import { FACEBOOK_SVG, GOOGLE_SVG, TWITTER_SVG } from '../../../assets/images';
+// import { loginSaga } from '../../../store/sagas/auth/auth';
 
 const Login = () => {
   const [OTPModalOpen, setOTPModalOpen] = useState(false);
@@ -105,8 +107,6 @@ const Login = () => {
 
   const submitBtnHandler = values => {
     const requestBody = { ...values };
-    
-
 
     // requestBody.deviceToken = localStorage.getItem('gtoken');
 
@@ -124,7 +124,7 @@ const Login = () => {
     ) {
       delete requestBody.phone;
     }
-    dispatch(login(requestBody));
+    dispatch(loginSaga(requestBody));
   };
 
   const handleSocialLoginError = error => {
@@ -245,21 +245,67 @@ const Login = () => {
       });
   };
 
-  const handleSubmit =(e, values) =>{
-
+  const handleSubmit = async (e, values) => {
     e.preventDefault();
-    console.log("signed in")
-    console.log("Form Value:", values);
-    // const requestBody = { ...values };
+    console.log('signed in');
+    console.log('Form Value:', values);
 
-    dispatch(
-      login({
-        data: values,
-        modalHandler: setOTPModalOpen,
-      }),
-    );
-    
-  }
+    const requestBody = { ...values };
+
+    try {
+      const response = await fetch('http://localhost:3000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // You might need additional headers like authorization tokens
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        // Handle error, for example:
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // Handle the response data, for example:
+      console.log('Login successful:', responseData);
+
+      // Dispatch your action or handle success accordingly
+      // dispatch(
+      //   login({
+      //     data: responseData,
+      //     modalHandler: setOTPModalOpen,
+      //   }),
+      // );
+
+      // Further actions after successful login
+      console.log('dispatch');
+      // history.push('/dashboard');
+      console.log('redirecting');
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error, show error message, etc.
+    }
+  };
+
+  // const handleSubmit =(e, values) =>{
+
+  //   e.preventDefault();
+  //   console.log("signed in")
+  //   console.log("Form Value:", values);
+  //   const requestBody = { ...values };
+
+  //   dispatch(
+  //     login({
+  //       data: requestBody,
+  //       modalHandler: setOTPModalOpen,
+  //     }),
+  //   );
+  //   console.log("dispatch")
+
+  // }
 
   const successHandler = payload => {
     setOTPModalOpen(false);
@@ -273,7 +319,14 @@ const Login = () => {
           open: true,
           notifyType: 2,
           message: 'Your account is verified!',
-          buttonClick: () => dispatch(resetTempData()),
+          // buttonClick: () => dispatch(resetTempData()),
+          // redirectURL: '/dashboard',
+          buttonClick: () => {
+            dispatch(resetTempData());
+            // Use the useHistory hook to redirect to /dashboard
+            const history = useHistory();
+            history.push('/dashboard');
+          },
         }),
       );
     }
@@ -313,10 +366,9 @@ const Login = () => {
       }),
     );
   };
-  
+
   return (
     <AuthLayout isLogin>
-
       <div className="col col-sm-12 col-md-12  col-lg-5 pad-15 p-7">
         <h3 className="signinTitle">Sign In</h3>
         <h6 className="grey-text f-18 o-5 mt-3 mb-4">
@@ -349,9 +401,16 @@ const Login = () => {
             setFieldValue,
             // handleSubmit,
             isSubmitting,
-            isValid
+            isValid,
           }) => (
-            <form onSubmit={(e) => handleSubmit(e, values)} noValidate autoComplete="off">
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                submitBtnHandler(values);
+              }}
+              // noValidate
+              autoComplete="off"
+            >
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1 mb-2">Email/Phone No.</label>
                 <input
@@ -474,8 +533,10 @@ const Login = () => {
                   !errorType &&
                   errorMsg}
               </div>
-              <button type="submit" className="btn btn-primary signIn-btn w-100"
-              disabled={isSubmitting || !isValid}
+              <button
+                type="submit"
+                className="btn btn-primary signIn-btn w-100"
+                disabled={isSubmitting || !isValid}
               >
                 Sign In
               </button>
